@@ -17,13 +17,13 @@ char picturegetCharForBrightness(int brightness) {
     return chars[index];
 }
 
-void pictureFromPngToSymbol(const int i,char picture[4500]) {
+void pictureFromPngToSymbol(const int i,char picture[]) {
     int width, height, channels;
 
 
-    unsigned char* image = stbi_load("C:\\Users\\dimak\\CLionProjects\\lab1\\pictures\\hi.png", &width, &height, &channels, 0);
+    unsigned char* image = stbi_load("C:\\Users\\dimak\\CLionProjects\\lab1\\pictures\\run.png", &width, &height, &channels, 0);
 
-
+    //char symbols[180];
     if (image != NULL) {
         // Масштабируем изображение до 45x100
         unsigned char scaledImage[45 * 100];

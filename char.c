@@ -11,19 +11,15 @@ FieldInfo* GetCharFieldInfo() {
         CHAR_FIELD_INFO = (FieldInfo*)malloc(sizeof(FieldInfo));
         CHAR_FIELD_INFO->typeName = "char";
         CHAR_FIELD_INFO->elementSize= sizeof(char);
-        CHAR_FIELD_INFO->mergeElements = charMerge;
+
         CHAR_FIELD_INFO->printElement = charPrint;
         CHAR_FIELD_INFO->recodeElement=charRecode;
-        CHAR_FIELD_INFO->subElement=charSubline;
     }
     return CHAR_FIELD_INFO;
 
 }
 
-void charMerge(void* result,const void* l)
-{
-    *(char*) result = *( char*) l;
-}
+
 void charPrint(const void* elem)
 {
     printf("%c", *(const char*)elem);
