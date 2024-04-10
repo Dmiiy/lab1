@@ -47,7 +47,7 @@ int main() {
             case 0:
                 // watch all lines
             {
-                char name[20];
+                char name[20]="\0";
                 printf("All lines: ");
                 for (size_t i = 0; i < collection.size; i++) {
                     printf("%s ", collection.lines[i].name);
@@ -57,7 +57,7 @@ int main() {
             case 1:
                 // create char-line
             {
-                char name[20];
+                char name[20]="\0";
                 printf("Enter line name: ");
                 scanf("%19s", name);
                 lineAddToCollection(&collection, name, GetCharFieldInfo());
@@ -75,9 +75,8 @@ int main() {
             case 3:
                 // add symbol to char-line
             {
-                char name[20];
+                char name[20]="\0";
                 printf("Enter line name: ");
-                //может не оканчиваться на 0 чтобы не было ошибки с работой массива
                 scanf("%19s", name);
                 Line *l = lineFindInCollection(&collection, name);
                 if (l) {
@@ -87,9 +86,7 @@ int main() {
                     scanf("%d", &amount);
                     printf("Enter %d symbols:", amount);
                     for (int i = 0; i < amount; i++) {
-                        char c;
-                        printf("Enter %d symbols: ", i + 1);
-                        scanf("%c", &c);
+                        char c=getchar();
                         linePushBack(l, &c);
                     }
                 } else {
@@ -121,9 +118,9 @@ int main() {
             case 5:
                 //appending of lines
             {
-                char nameFirstArg[20];
-                char nameSecondArg[20];
-                char nameResult[20];
+                char nameFirstArg[20]="\0";
+                char nameSecondArg[20]="\0";
+                char nameResult[20]="\0";
                 printf("Enter line names like this 'l1 l2 res': ");
                 scanf("%19s %19s %19s", nameFirstArg, nameSecondArg, nameResult);
                 Line *l1 = lineFindInCollection(&collection, nameFirstArg);
@@ -140,8 +137,8 @@ int main() {
                 //creating sub-line
             {
                 int i, j;
-                char nameArg[20];
-                char nameResult[20];
+                char nameArg[20]="\0";
+                char nameResult[20]="\0";
                 printf("Enter like this 'res line': ");
                 scanf("%19s %19s", nameResult, nameArg);
                 printf("Enter the number of the symbol that the line will start with: ");
@@ -178,7 +175,7 @@ int main() {
             case 8:
                 //print line by name
             {
-                char name[20];
+                char name[20]="\0";
                 printf("Enter line name for show: ");
                 scanf("%19s", name);
                 Line *l = lineFindInCollection(&collection, name);
@@ -192,7 +189,7 @@ int main() {
             case 9:
                 //delete
             {
-                char name[20];
+                char name[20]="\0";
                 printf("Enter line name for delete: ");
                 scanf("%19s", name);
                 Line *l = lineFindInCollection(&collection, name);
