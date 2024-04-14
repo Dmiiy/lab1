@@ -23,21 +23,17 @@ Line *lineInit(FieldInfo *typeInfo);
 
 void linePushBack(Line *l, const void *elem);
 
-//получение итого элемента и присваивание итого элемента создание функций
-//replace (заменить вхождения подстроки на что-то)
 void lineFree(Line *l);
 
-void lineGetElement(const Line *l);
+void lineGetElement(const Line *l, int i);
 
 void lineDeleteElement(Line *l, int i);
-
-void lineSetElement(Line *l);
 
 void lineAppend(Line *res, const Line *l1, const Line *l2);
 
 void lineRecode(Line *res, const Line *l);
 
-void lineSubline(Line *res, const Line *l, const int i, const int j);
+void lineSubline(Line *res, const Line *l, int i, int j);
 
 void linePrintElements(const Line *l);
 

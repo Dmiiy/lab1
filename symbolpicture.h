@@ -3,13 +3,15 @@
 #include "field_info.h"
 #include "pictures.h"
 
-typedef struct{
+typedef struct {
     char picture[4500];
 } SymbolPicture;
 
 
-void symbolpicturePrint(const void* elem);
+void symbolpicturePrint(const void *elem);
 
-void symbolpictureRecode(void* res,const void* l);
+void symbolpictureRecode(void *res, const void *l);
 
-FieldInfo* GetSymbolPictureFieldInfo();
+void symbolpictureGet(const void *l);
+
+FieldInfo *GetSymbolPictureFieldInfo();

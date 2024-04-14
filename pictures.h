@@ -1,4 +1,4 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void pictureFromPngToSymbol(const int i,char picture[]);
+void pictureFromPngToSymbol(const int i, char picture[]);

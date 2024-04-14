@@ -13,9 +13,10 @@ Line *lineInit(FieldInfo *typeInfo) {
     return line;
 }
 
-void linePushBack(Line *l, const void *elem) {
+void linePushBack(Line *l, const void *elem)
+{
     l->data = realloc(l->data, (l->size + 1) * l->typeInfo->elementSize);
-    memcpy((char *) l->data + l->size * l->typeInfo->elementSize, elem, l->typeInfo->elementSize);
+    memcpy((char *)l->data + l->size * l->typeInfo->elementSize, elem, l->typeInfo->elementSize);
     l->size++;
 }
 
@@ -36,7 +37,7 @@ void lineAppend(Line *res, const Line *l1, const Line *l2) {
 
 
 void lineSubline(Line *res, const Line *l, const int i, const int j) {
-    if (j > l->size && i < j) {
+    if (j >= l->size && i < j) {
         printf("out of line range");
         return;
     }
@@ -49,6 +50,31 @@ void lineSubline(Line *res, const Line *l, const int i, const int j) {
         res->size++;
     }
 
+}
+
+void lineDeleteElement(Line *l, int i) {
+    if (i >= l->size) {
+        printf("out of line range");
+        return;
+    }
+
+    l->data = realloc(l->data, (l->size - 1) * l->typeInfo->elementSize);
+    memcpy((char *) l->data, l->data, l->typeInfo->elementSize * i);
+    l->size = i;
+    for (int k = i + 1; k < l->size; k++) {
+        memcpy((char *) l->data + k * l->typeInfo->elementSize, (char *) l->data + (k + 1) * l->typeInfo->elementSize,
+               l->typeInfo->elementSize);
+        l->size++;
+    }
+
+}
+
+void lineGetElement(const Line *l, int i) {
+    if (i >= l->size) {
+        printf("out of line range");
+        return;
+    }
+    l->typeInfo->getElement((const char *) l->data + i * l->typeInfo->elementSize);
 }
 
 void lineRecode(Line *res, const Line *l) {

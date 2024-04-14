@@ -15,9 +15,9 @@ void printMenu() {
     printf("6. Create sub-line\n");
     printf("7. Recode line\n");
     printf("8. Print line by name\n");
-    printf("9. Delete line by name\n");
-    printf("10. Look alphabet of pictures\n");
-    printf("11. Delete line by name\n");
+    printf("9. Look alphabet of pictures\n");
+    printf("10. Delete element of line\n");
+    printf("11. Print element of line by index\n");
     printf("Enter 'STOP' for finish\n");
     printf("Choose action: ");
 }
@@ -47,7 +47,7 @@ int main() {
             case 0:
                 // watch all lines
             {
-                char name[20]="\0";
+                char name[20] = "\0";
                 printf("All lines: ");
                 for (size_t i = 0; i < collection.size; i++) {
                     printf("%s ", collection.lines[i].name);
@@ -57,7 +57,7 @@ int main() {
             case 1:
                 // create char-line
             {
-                char name[20]="\0";
+                char name[20] = "\0";
                 printf("Enter line name: ");
                 scanf("%19s", name);
                 lineAddToCollection(&collection, name, GetCharFieldInfo());
@@ -75,19 +75,27 @@ int main() {
             case 3:
                 // add symbol to char-line
             {
-                char name[20]="\0";
+                char name[20] = "\0";
+                int amount;
+                char k;
+                int c;
                 printf("Enter line name: ");
                 scanf("%19s", name);
                 Line *l = lineFindInCollection(&collection, name);
                 if (l) {
-                    int amount;
-
                     printf("How many symbols will you enter? ");
                     scanf("%d", &amount);
-                    printf("Enter %d symbols:", amount);
+                    printf("Enter %d numbers of symbols from 0 to 255:\n", amount);
                     for (int i = 0; i < amount; i++) {
-                        char c=getchar();
-                        linePushBack(l, &c);
+                        printf("Enter %d number of symbol: ", i);
+                        scanf("%d", &c);
+                        if (c < 0 || c > 255) {
+                            printf("Incorrect symbol.\n");
+                            i--;
+                            continue;
+                        }
+                        k=(char)c;
+                        linePushBack(l, &k);
                     }
                 } else {
                     printf("Line not found.\n");
@@ -101,14 +109,18 @@ int main() {
                 int i = 0;
                 printf("Enter picture-line name to add picture: ");
                 scanf("%19s", name);
-                printf("Enter number of picture: ");
-                scanf_s("%d", &i);
                 Line *l = lineFindInCollection(&collection, name);
                 if (l) {
-                    SymbolPicture symbolpicture;
-                    pictureFromPngToSymbol(i, symbolpicture.picture);
-                    linePushBack(l, &symbolpicture);
-
+                    printf("How many pictures will you enter? ");
+                    scanf_s("%d", &i);
+                    for (int j = 0; j < i; ++j) {
+                        int k;
+                        printf("Enter %d number of picture: ", j);
+                        scanf_s("%d", &k);
+                        SymbolPicture symbolpicture;
+                        pictureFromPngToSymbol(k, symbolpicture.picture);
+                        linePushBack(l, &symbolpicture);
+                    }
                 } else {
                     printf("Line not found.\n");
                 }
@@ -118,9 +130,9 @@ int main() {
             case 5:
                 //appending of lines
             {
-                char nameFirstArg[20]="\0";
-                char nameSecondArg[20]="\0";
-                char nameResult[20]="\0";
+                char nameFirstArg[20] = "\0";
+                char nameSecondArg[20] = "\0";
+                char nameResult[20] = "\0";
                 printf("Enter line names like this 'l1 l2 res': ");
                 scanf("%19s %19s %19s", nameFirstArg, nameSecondArg, nameResult);
                 Line *l1 = lineFindInCollection(&collection, nameFirstArg);
@@ -137,13 +149,13 @@ int main() {
                 //creating sub-line
             {
                 int i, j;
-                char nameArg[20]="\0";
-                char nameResult[20]="\0";
+                char nameArg[20] = "\0";
+                char nameResult[20] = "\0";
                 printf("Enter like this 'res line': ");
                 scanf("%19s %19s", nameResult, nameArg);
-                printf("Enter the number of the symbol that the line will start with: ");
+                printf("Enter the number of the symbol that the line will start with (0 if first): ");
                 scanf("%d", &i);
-                printf("Enter the number of the symbol that the line will end with: ");
+                printf("Enter the number of the symbol that the line will end with : ");
                 scanf("%d", &j);
                 Line *l = lineFindInCollection(&collection, nameArg);
                 Line *lRes = lineFindInCollection(&collection, nameResult);
@@ -175,7 +187,7 @@ int main() {
             case 8:
                 //print line by name
             {
-                char name[20]="\0";
+                char name[20] = "\0";
                 printf("Enter line name for show: ");
                 scanf("%19s", name);
                 Line *l = lineFindInCollection(&collection, name);
@@ -187,20 +199,53 @@ int main() {
                 break;
             }
             case 9:
-                //delete
+                //alphabet of pictures
             {
-                char name[20]="\0";
-                printf("Enter line name for delete: ");
+                lineAddToCollection(&collection, "alphabet", GetSymbolPictureFieldInfo());
+                Line *l = lineFindInCollection(&collection, "alphabet");
+                for (int i = 1; i < 5; ++i) {
+                    SymbolPicture symbolpicture;
+                    pictureFromPngToSymbol(i, symbolpicture.picture);
+                    linePushBack(l, &symbolpicture);
+                }
+                printf("Alphabet of pictures starts with 1 to 4:\n");
+                linePrintElements(l);
+                break;
+            }
+            case 10:
+                //delete element from line by index
+            {
+                char name[20] = "\0";
+                int k;
+                printf("Enter line name for delete element: ");
                 scanf("%19s", name);
+                printf("Enter the number of the symbol to delete (0 if first): ");
+                scanf("%d", &k);
                 Line *l = lineFindInCollection(&collection, name);
                 if (l) {
-                    lineFree(l);
+                    lineDeleteElement(l, k);
                 } else {
                     printf("Line not found.\n");
                 }
                 break;
             }
-
+            case 11:
+                //print element from line by index
+            {
+                char name[20] = "\0";
+                int k;
+                printf("Enter line name for print element: ");
+                scanf("%19s", name);
+                printf("Enter the number of the symbol to print (0 if first): ");
+                scanf("%d", &k);
+                Line *l = lineFindInCollection(&collection, name);
+                if (l) {
+                    lineGetElement(l, k);
+                } else {
+                    printf("Line not found.\n");
+                }
+                break;
+            }
 
             default:
                 printf("Unknown command.\n");

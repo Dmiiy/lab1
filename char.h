@@ -2,12 +2,11 @@
 #include <stdio.h>
 
 
+void charPrint(const void *elem);
 
-void charPrint(const void* elem);
+void charRecode(void *res, const void *l);
 
-void charRecode(void* res,const void* l);
+void charGet(const void *l);
 
-//void charSubline(void* res,const void* l);
-
-FieldInfo* GetCharFieldInfo();
+FieldInfo *GetCharFieldInfo();
 
