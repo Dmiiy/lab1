@@ -14,4 +14,6 @@ void symbolpictureRecode(void *res, const void *l);
 
 void symbolpictureGet(const void *l);
 
+void symbolpictureCompare(const void *elem1, const void *elem2, int *res);
+
 FieldInfo *GetSymbolPictureFieldInfo();

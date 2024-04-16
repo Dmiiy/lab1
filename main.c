@@ -23,9 +23,9 @@ void printMenu() {
 }
 
 int main() {
-    if (testBasicLineLogic() == -1) {
+    if (testCharLineLogic() == -1) {
         return -1;
-    } else if (testCharFunction() == -1) {
+    } else if (testPictureLineLogic() == -1) {
         return -1;
     }
 
@@ -75,27 +75,22 @@ int main() {
             case 3:
                 // add symbol to char-line
             {
-                char name[20] = "\0";
                 int amount;
-                char k;
-                int c;
+                char name[20] = "\0";
                 printf("Enter line name: ");
                 scanf("%19s", name);
                 Line *l = lineFindInCollection(&collection, name);
                 if (l) {
                     printf("How many symbols will you enter? ");
                     scanf("%d", &amount);
-                    printf("Enter %d numbers of symbols from 0 to 255:\n", amount);
+                    printf("Enter %d symbols:\n", amount);
+
                     for (int i = 0; i < amount; i++) {
-                        printf("Enter %d number of symbol: ", i);
-                        scanf("%d", &c);
-                        if (c < 0 || c > 255) {
-                            printf("Incorrect symbol.\n");
-                            i--;
-                            continue;
-                        }
-                        k=(char)c;
-                        linePushBack(l, &k);
+                        char c;
+                        printf("Enter %d symbol:", i);
+                        while ((c = getchar()) != '\n' && c != EOF);
+                        scanf("%c", &c);
+                        linePushBack(l, &c);
                     }
                 } else {
                     printf("Line not found.\n");
@@ -153,13 +148,14 @@ int main() {
                 char nameResult[20] = "\0";
                 printf("Enter like this 'res line': ");
                 scanf("%19s %19s", nameResult, nameArg);
-                printf("Enter the number of the symbol that the line will start with (0 if first): ");
-                scanf("%d", &i);
-                printf("Enter the number of the symbol that the line will end with : ");
-                scanf("%d", &j);
                 Line *l = lineFindInCollection(&collection, nameArg);
                 Line *lRes = lineFindInCollection(&collection, nameResult);
                 if (l && lRes) {
+                    printf("Enter the number of the symbol that the line will start with (0 if first): ");
+                    scanf("%d", &i);
+                    printf("Enter the number of the symbol that the line will end with : ");
+                    scanf("%d", &j);
+
                     lineSubline(lRes, l, i, j);
                 } else {
                     printf("Some lines not found.\n");
@@ -180,8 +176,6 @@ int main() {
                 } else {
                     printf("Some lines not found.\n");
                 }
-                free(nameArg);
-                free(nameResult);
                 break;
             }
             case 8:
@@ -219,10 +213,11 @@ int main() {
                 int k;
                 printf("Enter line name for delete element: ");
                 scanf("%19s", name);
-                printf("Enter the number of the symbol to delete (0 if first): ");
-                scanf("%d", &k);
                 Line *l = lineFindInCollection(&collection, name);
                 if (l) {
+                    printf("Enter the number of the symbol to delete (0 if first): ");
+                    scanf("%d", &k);
+
                     lineDeleteElement(l, k);
                 } else {
                     printf("Line not found.\n");
@@ -236,10 +231,10 @@ int main() {
                 int k;
                 printf("Enter line name for print element: ");
                 scanf("%19s", name);
-                printf("Enter the number of the symbol to print (0 if first): ");
-                scanf("%d", &k);
                 Line *l = lineFindInCollection(&collection, name);
                 if (l) {
+                    printf("Enter the number of the symbol to print (0 if first): ");
+                    scanf("%d", &k);
                     lineGetElement(l, k);
                 } else {
                     printf("Line not found.\n");

@@ -8,9 +8,10 @@
 #include "pictures.h"
 #include "symbolpicture.h"
 
-
 //return 0 - OK, -1 - ERROR
-int testBasicLineLogic();
-int testCharFunction();
+
+int testCharLineLogic();
+
+int testPictureLineLogic();
 
 #endif

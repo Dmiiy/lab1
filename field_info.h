@@ -4,11 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef void (*PrintLineElement)(const void *el);
+typedef void (*PrintLineElement)(const void *);
 
 typedef void (*RecodeLineElement)(void *, const void *);
 
 typedef void (*GetLineElement)(const void *);
+
+typedef void (*CompareLineElement)(const void *, const void *, int *);
 
 typedef struct FieldInfo {
     const char *typeName;
@@ -16,6 +18,7 @@ typedef struct FieldInfo {
     PrintLineElement printElement;
     RecodeLineElement recodeElement;
     GetLineElement getElement;
+    CompareLineElement compareElement;
 } FieldInfo;
 
 #endif

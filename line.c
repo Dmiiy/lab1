@@ -13,10 +13,9 @@ Line *lineInit(FieldInfo *typeInfo) {
     return line;
 }
 
-void linePushBack(Line *l, const void *elem)
-{
+void linePushBack(Line *l, const void *elem) {
     l->data = realloc(l->data, (l->size + 1) * l->typeInfo->elementSize);
-    memcpy((char *)l->data + l->size * l->typeInfo->elementSize, elem, l->typeInfo->elementSize);
+    memcpy((char *) l->data + l->size * l->typeInfo->elementSize, elem, l->typeInfo->elementSize);
     l->size++;
 }
 
@@ -45,7 +44,7 @@ void lineSubline(Line *res, const Line *l, const int i, const int j) {
     res->data = realloc(res->data, (j - i + 1) * l->typeInfo->elementSize);
 
     for (int k = i; k <= j; k++) {
-        memcpy((char *) res->data + res->size * res->typeInfo->elementSize, l->data + i * l->typeInfo->elementSize,
+        memcpy((char *) res->data + res->size * res->typeInfo->elementSize, l->data + k * l->typeInfo->elementSize,
                l->typeInfo->elementSize);
         res->size++;
     }
@@ -57,16 +56,20 @@ void lineDeleteElement(Line *l, int i) {
         printf("out of line range");
         return;
     }
-
-    l->data = realloc(l->data, (l->size - 1) * l->typeInfo->elementSize);
-    memcpy((char *) l->data, l->data, l->typeInfo->elementSize * i);
-    l->size = i;
-    for (int k = i + 1; k < l->size; k++) {
-        memcpy((char *) l->data + k * l->typeInfo->elementSize, (char *) l->data + (k + 1) * l->typeInfo->elementSize,
-               l->typeInfo->elementSize);
-        l->size++;
+    void *tempResult = malloc(l->typeInfo->elementSize * (l->size - 1));
+    if (tempResult == NULL) {
+        printf("Not enough memory");
+        return;
     }
 
+    memcpy(tempResult, l->data, l->typeInfo->elementSize * i);
+    memcpy((char *) tempResult + l->typeInfo->elementSize * i, l->data + l->typeInfo->elementSize * (i + 1),
+           l->typeInfo->elementSize * (l->size - 1 - i));
+
+    l->data = realloc(l->data, (l->size - 1) * l->typeInfo->elementSize);
+    memcpy(l->data, tempResult, l->typeInfo->elementSize * (l->size - 1));
+    free(tempResult);
+    l->size--;
 }
 
 void lineGetElement(const Line *l, int i) {
@@ -78,6 +81,7 @@ void lineGetElement(const Line *l, int i) {
 }
 
 void lineRecode(Line *res, const Line *l) {
+
     void *tempResult = malloc(l->typeInfo->elementSize);
     if (tempResult == NULL) {
         printf("memory allocation error");
@@ -113,4 +117,14 @@ Line *lineFindInCollection(LineNamedMas *collection, const char *name) {
         }
     }
     return NULL; // not found
+}
+
+int lineCompare(const Line *l1, const Line *l2) {
+    for (size_t i = 0; i < l1->size; i++) {
+        int res = 0;
+        l1->typeInfo->compareElement((const char *) l1->data + i * l1->typeInfo->elementSize,
+                                     (const char *) l2->data + i * l2->typeInfo->elementSize, &res);
+        if (res != 0) return res;
+    }
+    return 0;
 }

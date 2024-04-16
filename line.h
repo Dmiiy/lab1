@@ -39,5 +39,7 @@ void linePrintElements(const Line *l);
 
 void lineAddToCollection(LineNamedMas *collection, const char *name, FieldInfo *typeInfo);
 
+int lineCompare(const Line *l1, const Line *l2);
+
 Line *lineFindInCollection(LineNamedMas *collection, const char *name);
 
