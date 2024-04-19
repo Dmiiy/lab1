@@ -15,7 +15,7 @@ void printMenu() {
     printf("6. Create sub-line\n");
     printf("7. Recode line\n");
     printf("8. Print line by name\n");
-    printf("9. Look alphabet of pictures\n");
+    printf("9. Look alphabet of pictures from 1 to 4\n");
     printf("10. Delete element of line\n");
     printf("11. Print element of line by index\n");
     printf("Enter 'STOP' for finish\n");
@@ -23,19 +23,21 @@ void printMenu() {
 }
 
 int main() {
+
     if (testCharLineLogic() == -1) {
         return -1;
     } else if (testPictureLineLogic() == -1) {
         return -1;
     }
-
     printf("All tests completed successfully!\n");
+
     LineNamedMas collection = {NULL, 0};
 
     while (1) {
 
-        char input[20] = "\0";
         printMenu();
+
+        char input[20] = "\0";
         scanf("%19s", input);
 
         if (strcmp(input, "STOP") == 0) {
@@ -47,7 +49,6 @@ int main() {
             case 0:
                 // watch all lines
             {
-                char name[20] = "\0";
                 printf("All lines: ");
                 for (size_t i = 0; i < collection.size; i++) {
                     printf("%s ", collection.lines[i].name);
@@ -202,7 +203,7 @@ int main() {
                     pictureFromPngToSymbol(i, symbolpicture.picture);
                     linePushBack(l, &symbolpicture);
                 }
-                printf("Alphabet of pictures starts with 1 to 4:\n");
+                printf("Alphabet of pictures from 1 to 4");
                 linePrintElements(l);
                 break;
             }
